@@ -2,20 +2,18 @@ import {
   ADD_BLOG,
   SET_EDITING_ITEM,
   RESET_FORM,
-  OPEN_FORM,
+  // OPEN_FORM,
   SET_TITLE,
   SET_CATEGORY,
   SET_CONTENT,
   SET_SUBCONTENT,
   SET_AUTHOR,
   SET_IMAGE,
-  SET_SUCCESS,
-  SET_ERROR,
-} from "../Actions/BlogsActions";
+} from "../Actions/ActionTypes";
 
 const initialState = {
   blogs: [],
-  openForm: false,
+  // openForm: false,
   editingItem: null,
   title: "",
   category: "",
@@ -23,8 +21,6 @@ const initialState = {
   subContent: "",
   author: "",
   image: null,
-  error: false,
-  success: false,
 };
 
 const blogsReducer = (state = initialState, action) => {
@@ -49,11 +45,11 @@ const blogsReducer = (state = initialState, action) => {
         author: "",
         image: null,
       };
-    case OPEN_FORM:
-      return {
-        ...state,
-        openForm: action.payload,
-      };
+    // case OPEN_FORM:
+    //   return {
+    //     ...state,
+    //     openForm: action.payload,
+    //   };
     case SET_TITLE:
       return {
         ...state,
@@ -84,11 +80,6 @@ const blogsReducer = (state = initialState, action) => {
         ...state,
         image: action.payload,
       };
-    case SET_SUCCESS:
-      return { ...state, success: action.payload };
-
-    case SET_ERROR:
-      return { ...state, error: action.payload };
     default:
       return state;
   }

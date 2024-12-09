@@ -2,13 +2,13 @@ import {
   ADD_PERSON,
   ADD_PERSON_ROLE,
   SET_EDITING_ITEM,
-  OPEN_FORM,
+  // OPEN_FORM,
   SET_IMAGE,
   RESET_FORM,
   SET_SUCCESS,
   SET_ERROR,
   SET_PERSON_NAME,
-} from "../Actions/Types";
+} from "../Actions/ActionTypes";
 
 const initialState = {
   teamMembers: [],
@@ -16,9 +16,8 @@ const initialState = {
   editingItem: null,
   name: "",
   role: "",
-  openForm: false,
+  // openForm: false,
 };
-
 
 const teamsReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -38,8 +37,8 @@ const teamsReducer = (state = initialState, action) => {
     case SET_IMAGE:
       return { ...state, image: action.payload };
 
-    case OPEN_FORM:
-      return { ...state, openForm: action.payload };
+    // case OPEN_FORM:
+    //   return { ...state, openForm: action.payload };
 
     case SET_EDITING_ITEM:
       return { ...state, editingItem: action.payload };

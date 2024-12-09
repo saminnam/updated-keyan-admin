@@ -1,6 +1,6 @@
 import {
   ADD_PORTFOLIO,
-  OPEN_FORM,
+  // OPEN_FORM,
   SET_EDITING_ITEM,
   SET_TITLE,
   SET_WEBSITE_URL,
@@ -8,7 +8,7 @@ import {
   RESET_FORM,
   SET_SUCCESS,
   SET_ERROR,
-} from "../Actions/Types";
+} from "../Actions/ActionTypes";
 
 const initialState = {
   portfolioItems: [],
@@ -16,7 +16,7 @@ const initialState = {
   editingItem: null,
   title: "",
   websiteUrl: "",
-  openForm: false,
+  // openForm: false,
   success: false,
   error: false,
 };
@@ -43,8 +43,8 @@ const portfoliosReducer = (state = initialState, action) => {
         image: null,
         editingItem: null,
       };
-    case OPEN_FORM:
-      return { ...state, openForm: action.payload };
+    // case OPEN_FORM:
+    //   return { ...state, openForm: action.payload };
 
     case SET_EDITING_ITEM:
       return { ...state, editingItem: action.payload };

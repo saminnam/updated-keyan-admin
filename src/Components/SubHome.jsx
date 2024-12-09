@@ -5,17 +5,15 @@ import { AgGridReact } from "ag-grid-react";
 import { RiCodeView, RiDeleteBinLine } from "react-icons/ri";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
-import {
-  setContacts,
-  setError,
-  setLoading,
-} from "../Redux/Actions/ContactsActions";
+import { setContacts } from "../Redux/Actions/ContactsActions";
+import { setLoading, setError } from "../Redux/Actions/CommonActions";
 import ShortInfo from "../Components/ShortInfo";
 import { API_BASE_URL } from "./Api";
 
 const SubHome = () => {
   const dispatch = useDispatch();
   const { contacts } = useSelector((state) => state.contactsInfo);
+  const { error, loading } = useSelector((state) => state.commonInfo);
   const [selectedMessage, setSelectedMessage] = useState(null);
 
   useEffect(() => {
@@ -23,17 +21,18 @@ const SubHome = () => {
   }, []);
 
   const fetchContacts = () => {
-    dispatch(setLoading(true));
+    setLoading(true);
+    setError(null);
     axios
       .get(`${API_BASE_URL}contacts`)
       .then((response) => {
         dispatch(setContacts(response.data));
       })
       .catch((error) => {
-        dispatch(setError(error.message));
+        setError(error.message);
       })
       .finally(() => {
-        dispatch(setLoading(false));
+        setLoading(false);
       });
   };
 
@@ -48,7 +47,7 @@ const SubHome = () => {
         setSelectedMessage({ ...contact, status: "Read" });
       })
       .catch((error) => {
-        console.error("Error marking contact as read", error);
+        setError("Error marking contact as read", error.message);
       });
   };
 
@@ -59,7 +58,7 @@ const SubHome = () => {
         fetchContacts();
       })
       .catch((error) => {
-        console.error("Error deleting contact", error);
+        setError("Error deleting contact", error.message);
       });
   };
 
@@ -77,13 +76,14 @@ const SubHome = () => {
   // };
 
   const columns = [
-    { headerName: "Name", field: "name", sortable: true, filter: true },
+    { headerName: "Name", field: "name", sortable: true, filter: true,pinned: "left" },
     { headerName: "Email", field: "email", sortable: true, filter: true },
     { headerName: "Subject", field: "subject", sortable: true, filter: true },
     { headerName: "Message", field: "message", sortable: true, filter: true },
     { headerName: "Status", field: "status", sortable: true, filter: true },
     {
       headerName: "Actions",
+      pinned: "right",
       cellRenderer: (params) => (
         <div className="flex space-x-2 mt-2">
           <RiCodeView
@@ -114,14 +114,22 @@ const SubHome = () => {
             Delete All
           </button> */}
         </div>
-        <div className="ag-theme-alpine" style={{ height: 400, width: "100%" }}>
-          <AgGridReact
-            rowData={contacts}
-            columnDefs={columns}
-            pagination={true}
-            paginationPageSize={10}
-          />
-        </div>
+        {error && <div className="text-red-500 mb-4">{error}</div>}
+        {loading ? (
+          <div className="text-center text-gray-500">Loading...</div>
+        ) : (
+          <div
+            className="ag-theme-alpine"
+            style={{ height: 400, width: "100%" }}
+          >
+            <AgGridReact
+              rowData={contacts}
+              columnDefs={columns}
+              pagination={true}
+              paginationPageSize={10}
+            />
+          </div>
+        )}
         {selectedMessage && (
           <div className="mt-10 p-5 border border-gray-300 rounded-lg bg-gray-100 relative">
             <button

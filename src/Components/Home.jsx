@@ -1,21 +1,31 @@
 import { useEffect, useState } from "react";
-import Services from "./Services";
-import Portfolios from "./Portfolios";
-import Blogs from "./Blogs";
-import Testimonials from "./Testimonials";
+// import Services from "./Services";
+// import Portfolios from "./Portfolios";
+// import Blogs from "./Blogs";
+// import Testimonials from "./Testimonials";
 import Contact from "./Contact";
-import Team from "./Team";
+// import Team from "./Team";
 import SubHome from "./SubHome";
 import { IoIosNotificationsOutline } from "react-icons/io";
-import { IoIosContact } from "react-icons/io";
+import { CiLogout } from "react-icons/ci";
 import axios from "axios";
 import Navbar from "./Header";
 import { API_BASE_URL } from "./Api";
+import { useNavigate } from "react-router-dom";
+import BlogsTable from "../DataTables/BlogsTable";
+import BlogsForm from "../Forms/BlogsForm";
+import ServicesForm from "../Forms/ServicesForm";
+import ServicesTable from "../DataTables/ServicesTable";
+import PortfoliosForm from "../Forms/PortfoliosForm";
+import PortfolioTable from "../DataTables/PortfolioTable";
+import TestimonialsForm from "../Forms/TestimonialsForm";
+import TestimonialsTable from "../DataTables/TestimonialsTable";
+import TeamForm from "../Forms/TeamForm";
+import TeamTable from "../DataTables/TeamTable";
 
 const Home = ({ active, setActive }) => {
   const [contactLen, setContactLen] = useState([]);
-  const [customerList, setCustomerList] = useState([]);
-  const [teamList, setTeamList] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     contactFetcher();
@@ -26,6 +36,11 @@ const Home = ({ active, setActive }) => {
       .get(`${API_BASE_URL}contacts`)
       .then((res) => setContactLen(res.data))
       .catch((error) => console.log(error));
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("authToken");
+    navigate("/login");
   };
 
   return (
@@ -41,32 +56,32 @@ const Home = ({ active, setActive }) => {
               className="mx-2 cursor-pointer text-3xl"
               onClick={() => setActive("Contact")}
             />
-            <IoIosContact className="mx-2 cursor-pointer text-3xl" />
+            <CiLogout
+              className="mx-2 cursor-pointer text-3xl"
+              onClick={handleLogout}
+            />
           </div>
         </div>
       </div>
-      {/* Main Layout */}
       <div className="flex">
         <Navbar active={active} setActive={setActive} />
         <div className="w-full mt-16 relative z-0">
           {active === "Home" && <SubHome />}
-          {active === "Services" && <Services />}
-          {active === "Blogs" && <Blogs />}
-          {active === "Portfolios" && <Portfolios />}
-          {active === "Testimonials" && (
-            <Testimonials
-              customerList={customerList}
-              setCustomerList={setCustomerList}
-            />
-          )}
-          {active === "Team" && (
-            <Team
-              customerList={customerList}
-              setCustomerList={setCustomerList}
-              teamList={teamList}
-              setTeamList={setTeamList}
-            />
-          )}
+          {/* {active === "Services" && <Services />} */}
+          {active === "ServicesForm" && <ServicesForm />}
+          {active === "ServicesTable" && <ServicesTable />}
+          {/* {active === "Blogs" && <Blogs />} */}
+          {active === "BlogsTable" && <BlogsTable />}
+          {active === "BlogsForm" && <BlogsForm />}
+          {/* {active === "Portfolios" && <Portfolios />} */}
+          {active === "PortfolioForm" && <PortfoliosForm />}
+          {active === "PortfolioTable" && <PortfolioTable />}
+          {/* {active === "Testimonials" && <Testimonials />} */}
+          {active === "TestimonialsForm" && <TestimonialsForm />}
+          {active === "TestimonialsTable" && <TestimonialsTable />}
+          {/* {active === "Team" && <Team />} */}
+          {active === "TeamForm" && <TeamForm />}
+          {active === "TeamTable" && <TeamTable />}
           {active === "Contact" && <Contact />}
         </div>
       </div>

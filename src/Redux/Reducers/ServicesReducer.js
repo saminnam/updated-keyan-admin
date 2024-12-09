@@ -5,17 +5,14 @@ import {
   RESET_FORM,
   SET_SUCCESS,
   SET_ERROR,
-  OPEN_FORM,
   SET_EDITING_ITEM,
-} from "../Actions/Types";
-
+} from "../Actions/ActionTypes";
 
 const initialState = {
   services: [],
   title: "",
   description: "",
   editingItem: null,
-  openForm: false,
   success: false,
   error: false,
 };
@@ -51,9 +48,6 @@ const servicesReducer = (state = initialState, action) => {
         description: "",
         editingItem: null,
       };
-
-    case OPEN_FORM:
-      return { ...state, openForm: action.payload };
 
     case SET_SUCCESS:
       return {

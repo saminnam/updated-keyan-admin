@@ -5,19 +5,15 @@ import { AgGridReact } from "ag-grid-react";
 import { RiCodeView, RiDeleteBinLine } from "react-icons/ri";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
-import {
-  setContacts,
-  setError,
-  setLoading,
-} from "../Redux/Actions/ContactsActions";
+import { setContacts } from "../Redux/Actions/ContactsActions";
+import { setLoading, setError } from "../Redux/Actions/CommonActions";
 import ShortInfo from "./ShortInfo";
 import { API_BASE_URL } from "./Api";
 
 const Contact = () => {
   const dispatch = useDispatch();
-  const { contacts } = useSelector(
-    (state) => state.contactsInfo
-  );
+  const { contacts } = useSelector((state) => state.contactsInfo);
+  const { error, loading } = useSelector((state) => state.commonInfo);
   const [selectedMessage, setSelectedMessage] = useState(null);
 
   useEffect(() => {
@@ -25,23 +21,25 @@ const Contact = () => {
   }, []);
 
   const fetchContacts = () => {
-    dispatch(setLoading(true));
+    setLoading(true);
+    setError(null);
     axios
       .get(`${API_BASE_URL}contacts`)
       .then((response) => {
         dispatch(setContacts(response.data));
       })
       .catch((error) => {
-        dispatch(setError(error.message));
+        setError("Failed to fetch data. Please try again later.");
+        console.error("Error fetching data:", error.message);
       })
       .finally(() => {
-        dispatch(setLoading(false));
+        setLoading(false);
       });
   };
 
   const handleViewClick = (contact) => {
     axios
-      .put(`${API_BASE_URL}/contacts/${contact._id}/read`)
+      .put(`${API_BASE_URL}contacts/${contact._id}/read`)
       .then(() => {
         const updatedContacts = contacts.map((msg) =>
           msg._id === contact._id ? { ...msg, status: "Read" } : msg
@@ -50,18 +48,18 @@ const Contact = () => {
         setSelectedMessage({ ...contact, status: "Read" });
       })
       .catch((error) => {
-        console.error("Error marking contact as read", error);
+        setError("Error marking contact as read", error.message);
       });
   };
 
   const handleDelete = (id) => {
     axios
-      .delete(`${API_BASE_URL}/contacts/${id}`)
+      .delete(`${API_BASE_URL}contacts/${id}`)
       .then(() => {
         fetchContacts();
       })
       .catch((error) => {
-        console.error("Error deleting contact", error);
+        setError("Failed to delete. Please try again.", error.message);
       });
   };
 
@@ -79,7 +77,7 @@ const Contact = () => {
   // };
 
   const columnDefs = [
-    { headerName: "Name", field: "name", sortable: true, filter: true },
+    { headerName: "Name", field: "name", sortable: true, filter: true, pinned: "left" },
     { headerName: "Email", field: "email", sortable: true, filter: true },
     { headerName: "Subject", field: "subject", sortable: true, filter: true },
     { headerName: "Message", field: "message", sortable: true, filter: true },
@@ -87,6 +85,7 @@ const Contact = () => {
     {
       headerName: "Actions",
       field: "actions",
+      pinned: "right",
       cellRenderer: (params) => (
         <div className="flex space-x-2 mt-2">
           <RiCodeView
@@ -117,15 +116,23 @@ const Contact = () => {
             Delete All
           </button> */}
         </div>
-        <div className="ag-theme-alpine" style={{ height: 400, width: "100%" }}>
-          <AgGridReact
-            rowData={contacts}
-            columnDefs={columnDefs}
-            pagination={true}
-            paginationPageSize={10}
-            domLayout="autoHeight"
-          />
-        </div>
+        {error && <div className="text-red-500 mb-4">{error}</div>}
+        {loading ? (
+          <div className="text-center text-gray-500">Loading...</div>
+        ) : (
+          <div
+            className="ag-theme-alpine"
+            style={{ height: 400, width: "100%" }}
+          >
+            <AgGridReact
+              rowData={contacts}
+              columnDefs={columnDefs}
+              pagination={true}
+              paginationPageSize={10}
+              domLayout="autoHeight"
+            />
+          </div>
+        )}
         {selectedMessage && (
           <div className="p-5 border border-gray-300 rounded-lg bg-gray-100 relative">
             <button

@@ -1,9 +1,6 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import logo from "../assets/keyan-white.png";
-import { TbLogs } from "react-icons/tb";
-import { IoIosCloseCircleOutline } from "react-icons/io";
-import { CgLogOut } from "react-icons/cg";
 import { IoHomeOutline } from "react-icons/io5";
 import { MdOutlineMiscellaneousServices } from "react-icons/md";
 import { LiaBlogSolid } from "react-icons/lia";
@@ -12,129 +9,273 @@ import { PiListStarDuotone } from "react-icons/pi";
 import { IoIosContact } from "react-icons/io";
 import { RiTeamLine } from "react-icons/ri";
 import { MdKeyboardArrowRight } from "react-icons/md";
+import { CgFormatRight } from "react-icons/cg";
+import { LiaClipboardListSolid } from "react-icons/lia";
 
 const Navbar = ({ active, setActive }) => {
-  const [isMobileView, setIsMobileView] = useState(false);
-  const navigate = useNavigate();
+  const [openDropdown, setOpenDropdown] = useState(null);
+
   const handleLinkClick = (link) => {
     setActive(link);
-    setIsMobileView(false);
   };
 
-  const handleLogout = () => {
-    // Remove auth token from localStorage
-    localStorage.removeItem("authToken");
-    // Redirect to the login page or a public page
-    navigate("/login"); // Adjust the route based on your app structure
+  const toggleDropdown = (dropdown) => {
+    setOpenDropdown((prev) => (prev === dropdown ? null : dropdown));
   };
 
   return (
     <nav>
-      {/* Desktop and Tablet View */}
       <aside className="h-screen py-8 px-12 lg:w-[280px] bg-[#2986FE] hidden lg:block sticky top-0 left-0 z-50">
         <div>
           <img src={logo} alt="logo" />
         </div>
         <ul className="mt-10 text-white">
-          {[
-            { name: "HOME", icon: <IoHomeOutline />, link: "Home" },
-            {
-              name: "SERVICES",
-              icon: <MdOutlineMiscellaneousServices />,
-              link: "Services",
-            },
-            { name: "BLOGS", icon: <LiaBlogSolid />, link: "Blogs" },
-            { name: "PORTFOLIOS", icon: <FaRegFileCode />, link: "Portfolios" },
-            {
-              name: "TESTIMONIALS",
-              icon: <PiListStarDuotone />,
-              link: "Testimonials",
-            },
-            { name: "TEAM", icon: <RiTeamLine />, link: "Team" },
-            { name: "CONTACT", icon: <IoIosContact />, link: "Contact" },
-          ].map((item) => (
-            <li key={item.name} className="py-4 group">
-              <Link to="/" onClick={() => handleLinkClick(item.link)}>
-                <div className="flex justify-between hover:bg-white hover:text-[#2986FE] transition-all duration-300 p-2 rounded-lg">
-                  <div className="flex items-center gap-2">
-                    <div className="text-xl">{item.icon}</div>
-                    <div>{item.name}</div>
+          <li className="py-2 group" onClick={() => toggleDropdown("home")}>
+            <Link to="/" onClick={() => handleLinkClick("Home")}>
+              <div className="flex justify-between hover:bg-white hover:text-[#2986FE] transition-all duration-300 p-2 rounded-lg">
+                <div className="flex items-center gap-2">
+                  <div className="text-xl">
+                    <IoHomeOutline />
                   </div>
-                  <div className="text-2xl transition-transform duration-200 transform group-hover:translate-x-2">
-                    <MdKeyboardArrowRight />
-                  </div>
+                  <div>HOME</div>
                 </div>
-              </Link>
-            </li>
-          ))}
-        </ul>
-        <div className="text-[#2986FE] flex mx-auto gap-2 group mt-8 p-2 justify-center bg-white rounded-lg">
-          <CgLogOut className="text-2xl mt-1 transition-transform duration-200 transform group-hover:-translate-x-2" />
-          <button onClick={handleLogout} className="text-lg font-semibold">
-            LOGOUT
-          </button>
-        </div>
-      </aside>
-      {/* Mobile menu button */}
-      <button
-        className="absolute right-4 top-4 lg:hidden"
-        onClick={() => setIsMobileView(!isMobileView)}
-        aria-label="Toggle mobile menu"
-      >
-        {isMobileView ? (
-          <IoIosCloseCircleOutline className="text-[#2986FE] text-4xl" />
-        ) : (
-          <TbLogs className="text-[#2986FE] text-4xl" />
-        )}
-      </button>
-      {/* Mobile Menu - visible when `isMobileView` is true */}
-      <aside
-        className={`lg:hidden h-screen w-80 bg-[#2986FE] px-10 text-white fixed top-0 left-0 z-20 transform transition-transform duration-500 ease-in-out ${
-          isMobileView ? "translate-x-0" : "-translate-x-full"
-        }`}
-      >
-        <div className="flex py-8">
-          <img src={logo} alt="" className="w-52" />
-        </div>
-        <ul className="text-center">
-          {[
-            { name: "HOME", icon: <IoHomeOutline />, link: "Home" },
-            {
-              name: "SERVICES",
-              icon: <MdOutlineMiscellaneousServices />,
-              link: "Services",
-            },
-            { name: "BLOGS", icon: <LiaBlogSolid />, link: "Blogs" },
-            { name: "PORTFOLIOS", icon: <FaRegFileCode />, link: "Portfolios" },
-            {
-              name: "TESTIMONIALS",
-              icon: <PiListStarDuotone />,
-              link: "Testimonials",
-            },
-            { name: "TEAM", icon: <RiTeamLine />, link: "Team" },
-            { name: "CONTACT", icon: <IoIosContact />, link: "Contact" },
-          ].map((item) => (
-            <li key={item.name} className="py-3 group">
-              <Link to="/" onClick={() => handleLinkClick(item.link)}>
-                <div className="flex justify-between hover:bg-white hover:text-[#2986FE] transition-all duration-300 p-2">
-                  <div className="flex items-center gap-2">
-                    <div>{item.icon}</div>
-                    <div>{item.name}</div>
-                  </div>
-                  <div className="text-2xl transition-transform duration-200 transform group-hover:translate-x-2">
-                    <MdKeyboardArrowRight />
-                  </div>
+                <div className="text-2xl transition-transform duration-200 transform group-hover:translate-x-2">
+                  <MdKeyboardArrowRight />
                 </div>
-              </Link>
-            </li>
-          ))}
+              </div>
+            </Link>
+          </li>
+          <li className="py-2 group">
+            <Link to="/" onClick={() => toggleDropdown("services")}>
+              <div className="flex justify-between hover:bg-white hover:text-[#2986FE] transition-all duration-300 p-2 rounded-lg">
+                <div className="flex items-center gap-2">
+                  <div className="text-xl">
+                    <MdOutlineMiscellaneousServices />
+                  </div>
+                  <div>SERVICES</div>
+                </div>
+                <div className="text-2xl transition-transform duration-200 transform group-hover:translate-x-2">
+                  <MdKeyboardArrowRight />
+                </div>
+              </div>
+            </Link>
+            {openDropdown === "services" && (
+              <ul className="pl-8 mt-2 border-white border-t-2">
+                <li>
+                  <Link
+                    to="/"
+                    onClick={() => handleLinkClick("ServicesTable")}
+                    className="flex gap-7 items-center"
+                  >
+                    <div className="text-white py-2 text-[15px] hover:translate-x-3 transition-all duration-300">
+                      LIST SERVICE
+                    </div>
+                    <CgFormatRight className="text-xl text-white" />
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/"
+                    onClick={() => handleLinkClick("ServicesForm")}
+                    className="flex gap-6 items-center"
+                  >
+                    <div className=" py-2 text-[15px] hover:translate-x-3 transition-all duration-300">
+                      ADD SERVICE
+                    </div>
+                    <LiaClipboardListSolid className="text-xl" />
+                  </Link>
+                </li>
+              </ul>
+            )}
+          </li>
+          <li className="py-2 group">
+            <Link to="/" onClick={() => toggleDropdown("blogs")}>
+              <div className="flex justify-between hover:bg-white hover:text-[#2986FE] transition-all duration-300 p-2 rounded-lg">
+                <div className="flex items-center gap-2">
+                  <div className="text-xl">
+                    <LiaBlogSolid />
+                  </div>
+                  <div>BLOGS</div>
+                </div>
+                <div className="text-2xl transition-transform duration-200 transform group-hover:translate-x-2">
+                  <MdKeyboardArrowRight />
+                </div>
+              </div>
+            </Link>
+            {openDropdown === "blogs" && (
+              <ul className="pl-8 mt-2 border-white border-t-2">
+                <li>
+                  <Link
+                    to="/"
+                    onClick={() => handleLinkClick("BlogsTable")}
+                    className="flex gap-7 items-center"
+                  >
+                    <div className="text-white text-[15px] py-2 hover:translate-x-3 transition-all duration-300">
+                      LIST BLOG
+                    </div>
+                    <CgFormatRight className="text-xl text-white" />
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/"
+                    onClick={() => handleLinkClick("BlogsForm")}
+                    className="flex gap-6 items-center"
+                  >
+                    <div className="text-white text-[15px] py-2 hover:translate-x-3 transition-all duration-300">
+                      ADD BLOG
+                    </div>
+                    <LiaClipboardListSolid className="text-xl" />
+                  </Link>
+                </li>
+              </ul>
+            )}
+          </li>
+          <li className="py-2 group">
+            <Link to="/" onClick={() => toggleDropdown("portfolios")}>
+              <div className="flex justify-between hover:bg-white hover:text-[#2986FE] transition-all duration-300 p-2 rounded-lg">
+                <div className="flex items-center gap-2">
+                  <div className="text-xl">
+                    <FaRegFileCode />
+                  </div>
+                  <div>PORTFOLIOS</div>
+                </div>
+                <div className="text-2xl transition-transform duration-200 transform group-hover:translate-x-2">
+                  <MdKeyboardArrowRight />
+                </div>
+              </div>
+            </Link>
+            {openDropdown === "portfolios" && (
+              <ul className="pl-8 mt-2 border-white border-t-2">
+                <li>
+                  <Link
+                    to="/"
+                    onClick={() => handleLinkClick("PortfolioTable")}
+                    className="flex gap-5 items-center"
+                  >
+                    <div className="text-white text-[15px] py-2 hover:translate-x-3 transition-all duration-300">
+                      LIST PORTFOLIO
+                    </div>
+                    <CgFormatRight className="text-xl text-white" />
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/"
+                    onClick={() => handleLinkClick("PortfolioForm")}
+                    className="flex gap-4 items-center"
+                  >
+                    <div className="text-white text-[15px] py-2 hover:translate-x-3 transition-all duration-300">
+                      ADD PORTFOLIO
+                    </div>
+                    <LiaClipboardListSolid className="text-xl" />
+                  </Link>
+                </li>
+              </ul>
+            )}
+          </li>
+          <li className="py-2 group">
+            <Link to="/" onClick={() => toggleDropdown("testimonials")}>
+              <div className="flex justify-between hover:bg-white hover:text-[#2986FE] transition-all duration-300 p-2 rounded-lg">
+                <div className="flex items-center gap-2">
+                  <div className="text-xl">
+                    <PiListStarDuotone />
+                  </div>
+                  <div>TESTIMONIALS</div>
+                </div>
+                <div className="text-2xl transition-transform duration-200 transform group-hover:translate-x-2">
+                  <MdKeyboardArrowRight />
+                </div>
+              </div>
+            </Link>
+            {openDropdown === "testimonials" && (
+              <ul className="pl-8 mt-2 border-white border-t-2">
+                <li>
+                  <Link
+                    to="/"
+                    onClick={() => handleLinkClick("TestimonialsTable")}
+                    className="flex gap-3 items-center"
+                  >
+                    <div className="text-white text-[15px] py-2 hover:translate-x-3 transition-all duration-300">
+                      LIST TESTIMONIAL
+                    </div>
+                    <CgFormatRight className="text-xl text-white" />
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/"
+                    onClick={() => handleLinkClick("TestimonialsForm")}
+                    className="flex gap-2 items-center"
+                  >
+                    <div className="text-white text-[15px] py-2 hover:translate-x-3 transition-all duration-300">
+                      ADD TESTIMONIAL
+                    </div>
+                    <LiaClipboardListSolid className="text-xl" />
+                  </Link>
+                </li>
+              </ul>
+            )}
+          </li>
+          <li className="py-2 group">
+            <Link to="/" onClick={() => toggleDropdown("team")}>
+              <div className="flex justify-between hover:bg-white hover:text-[#2986FE] transition-all duration-300 p-2 rounded-lg">
+                <div className="flex items-center gap-2">
+                  <div className="text-xl">
+                    <RiTeamLine />
+                  </div>
+                  <div>TEAM</div>
+                </div>
+                <div className="text-2xl transition-transform duration-200 transform group-hover:translate-x-2">
+                  <MdKeyboardArrowRight />
+                </div>
+              </div>
+            </Link>
+            {openDropdown === "team" && (
+              <ul className="pl-8 mt-2 border-white border-t-2">
+                <li>
+                  <Link
+                    to="/"
+                    onClick={() => handleLinkClick("TeamTable")}
+                    className="flex gap-7 items-center"
+                  >
+                    <div className="text-white text-[15px] py-2 hover:translate-x-3 transition-all duration-300">
+                      LIST TEAM
+                    </div>
+                    <CgFormatRight className="text-xl text-white" />
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/"
+                    onClick={() => handleLinkClick("TeamForm")}
+                    className="flex gap-6 items-center"
+                  >
+                    <div className="text-white text-[15px] py-2 hover:translate-x-3 transition-all duration-300">
+                      ADD TEAM
+                    </div>
+                    <LiaClipboardListSolid className="text-xl" />
+                  </Link>
+                </li>
+              </ul>
+            )}
+          </li>
+          <li className="py-2 group" onClick={() => toggleDropdown("contact")}>
+            <Link to="/" onClick={() => handleLinkClick("Contact")}>
+              <div className="flex justify-between hover:bg-white hover:text-[#2986FE] transition-all duration-300 p-2 rounded-lg">
+                <div className="flex items-center gap-2">
+                  <div className="text-xl">
+                    <IoIosContact />
+                  </div>
+                  <div>CONTACTS</div>
+                </div>
+                <div className="text-2xl transition-transform duration-200 transform group-hover:translate-x-2">
+                  <MdKeyboardArrowRight />
+                </div>
+              </div>
+            </Link>
+          </li>
         </ul>
-        <div className="text-[#2986FE] flex mx-auto gap-2 group mt-14 p-2 justify-center bg-white rounded-lg">
-          <CgLogOut className="text-2xl mt-1 transition-transform duration-200 transform group-hover:-translate-x-2" />
-          <button onClick={handleLogout} className="text-lg font-semibold">
-            LOGOUT
-          </button>
-        </div>
       </aside>
     </nav>
   );

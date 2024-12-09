@@ -1,10 +1,12 @@
-export const SET_EDITING_ITEM = "SET_EDITING_ITEM";
-export const RESET_FORM = "RESET_FORM";
-export const OPEN_FORM = "OPEN_FORM";
-export const SET_TITLE = "SET_TITLE";
-export const SET_IMAGE = "SET_IMAGE";
-export const SET_WEBSITE_URL = "SET_WEBSITE_URL";
-export const ADD_PORTFOLIO = "ADD_PORTFOLIO";
+import {
+  ADD_PORTFOLIO,
+  // OPEN_FORM,
+  SET_EDITING_ITEM,
+  SET_TITLE,
+  SET_WEBSITE_URL,
+  SET_IMAGE,
+  RESET_FORM,
+} from "../Actions/ActionTypes";
 
 export const addPortfolio = (portfolios) => ({
   type: ADD_PORTFOLIO,
@@ -20,10 +22,10 @@ export const resetForm = () => ({
   type: RESET_FORM,
 });
 
-export const openForm = (isOpen) => ({
-  type: OPEN_FORM,
-  payload: isOpen,
-});
+// export const openForm = (isOpen) => ({
+//   type: OPEN_FORM,
+//   payload: isOpen,
+// });
 
 export const setTitle = (title) => ({
   type: SET_TITLE,

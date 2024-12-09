@@ -1,12 +1,32 @@
 .ag-header-cell-label {
-    font-size: 0.75rem; 
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: #fff;
-  }
-  
-  .ag-theme-alpine .ag-header {
-    background-color: #2986FE;
-  }
-  
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #fff;
+}
+
+.ag-theme-alpine .ag-header {
+  background-color: #2986fe;
+}
+
+.ag-theme-alpine .ag-icon {
+  color: white ;
+}
+
+.ag-theme-alpine .ag-icon-next {
+  color: #000;
+}
+
+.ag-theme-alpine .ag-icon-previous {
+  color: #000;
+}
+
+
+.ag-theme-alpine .ag-icon-small-down {
+  color: #000;
+}
+
+.ag-theme-alpine, .ag-theme-alpine-dark, .ag-theme-alpine-auto-dark {
+  --ag-alpine-active-color: #fff;
+}

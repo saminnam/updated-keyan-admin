@@ -3,13 +3,13 @@ import {
   SET_PERSON_RATING,
   SET_EDITING_ITEM,
   SET_CONTENT,
-  OPEN_FORM,
+  // OPEN_FORM,
   SET_IMAGE,
   RESET_FORM,
   SET_SUCCESS,
   SET_ERROR,
   SET_PERSON_NAME,
-} from "../Actions/Types";
+} from "../Actions/ActionTypes";
 
 const initialState = {
   testimonials: [],
@@ -17,8 +17,8 @@ const initialState = {
   editingItem: null,
   name: "",
   content: "",
-  rating: 1,
-  openForm: false,
+  rating: 0,
+  // openForm: false,
 };
 
 const testimonialsReducer = (state = initialState, action) => {
@@ -44,8 +44,8 @@ const testimonialsReducer = (state = initialState, action) => {
     case SET_IMAGE:
       return { ...state, image: action.payload };
 
-    case OPEN_FORM:
-      return { ...state, openForm: action.payload };
+    // case OPEN_FORM:
+    //   return { ...state, openForm: action.payload };
 
     case SET_EDITING_ITEM:
       return { ...state, editingItem: action.payload };
@@ -54,6 +54,7 @@ const testimonialsReducer = (state = initialState, action) => {
         ...state,
         name: "",
         content: "",
+        rating: 0,
         image: null,
         editingItem: null,
       };

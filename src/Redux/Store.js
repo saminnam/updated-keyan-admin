@@ -5,6 +5,7 @@ import contactsReducer from "./Reducers/ContactsReducer";
 import portfoliosReducer from "./Reducers/PortfoliosReducer";
 import testimonialsReducer from "./Reducers/TestimonialsReducer";
 import teamsReducer from "./Reducers/TeamsReducer";
+import commonReducer from "./Reducers/CommonReducer";
 
 const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ const store = configureStore({
     portfoliosInfo: portfoliosReducer,
     testimonialsInfo: testimonialsReducer,
     teamMembersInfo: teamsReducer,
+    commonInfo: commonReducer,
   },
 });
 
