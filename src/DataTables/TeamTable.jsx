@@ -12,7 +12,6 @@ import {
   setPersonName,
 } from "../Redux/Actions/TeamsActions";
 import {
-  setLoading,
   setError,
   setPopUpVisible,
   setSelectedId,
@@ -21,14 +20,14 @@ import TeamForm from "../Forms/TeamForm";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import DeletePopUp from "../Modals/DeletePopUp";
+import Loader from "../Components/Loader";
 
 const TeamTable = () => {
+  const [loading, setLoading] = useState(false);
   const [formVisible, setFormVisible] = useState(false);
   const dispatch = useDispatch();
   const { teamMembers } = useSelector((state) => state.teamMembersInfo);
-  const { error, loading, selectedId } = useSelector(
-    (state) => state.commonInfo
-  );
+  const { selectedId } = useSelector((state) => state.commonInfo);
 
   useEffect(() => {
     fetchTeamMembers();
@@ -87,18 +86,25 @@ const TeamTable = () => {
     setSelectedId(null);
   };
 
+  const addData = () => {
+    setFormVisible(true);
+  };
+
   const columnDefs = [
     {
       headerName: "Name",
       field: "Name",
       sortable: true,
       filter: true,
+      width: 250,
+      pinned: "left",
     },
     {
       headerName: "Role",
       field: "Role",
       sortable: true,
       filter: true,
+      width: 580,
     },
     {
       headerName: "Image",
@@ -114,6 +120,7 @@ const TeamTable = () => {
     {
       headerName: "Actions",
       field: "actions",
+      pinned: "right",
       cellRenderer: (params) => (
         <div className="flex mt-3 gap-5 cursor-pointer items-center">
           <FaRegEdit
@@ -126,12 +133,17 @@ const TeamTable = () => {
           />
         </div>
       ),
+      width: 130,
     },
   ];
 
   return (
     <>
-      {formVisible ? (
+      {loading && loading ? (
+        <div className="flex justify-center items-center h-[90vh]">
+          <Loader />
+        </div>
+      ) : formVisible ? (
         <>
           <div className="mx-10">
             <button
@@ -145,8 +157,16 @@ const TeamTable = () => {
         </>
       ) : (
         <div className="mt-2 mx-10">
-          <h2 className="text-3xl font-serif font-bold">Team Members List</h2>{" "}
-          <div className="ag-theme-alpine mt-1" style={{ width: "100%" }}>
+          <div className="flex justify-between items-center">
+            <h2 className="text-3xl font-serif font-bold">Team Members List</h2>
+            <button
+              className="bg-[#2986FE] py-2 px-4 hover:bg-transparent hover:text-[#2986FE] border border-[#2986FE] transition-all duration-300 rounded-lg text-white"
+              onClick={addData}
+            >
+              ADD
+            </button>
+          </div>
+          <div className="ag-theme-alpine mt-2">
             <AgGridReact
               rowData={teamMembers}
               columnDefs={columnDefs}

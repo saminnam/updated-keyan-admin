@@ -9,7 +9,6 @@ import {
   setPersonName,
 } from "../Redux/Actions/TestimonialsActions";
 import {
-  setLoading,
   setError,
   setPopUpVisible,
   setSelectedId,
@@ -23,14 +22,14 @@ import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import DeletePopUp from "../Modals/DeletePopUp";
 import TestimonialsForm from "../Forms/TestimonialsForm";
+import Loader from "../Components/Loader";
 
 const TestimonialsTable = () => {
+  const [loading, setLoading] = useState(false);
   const [formVisible, setFormVisible] = useState(false);
   const dispatch = useDispatch();
   const { testimonials } = useSelector((state) => state.testimonialsInfo);
-  const { error, loading, selectedId } = useSelector(
-    (state) => state.commonInfo
-  );
+  const { selectedId } = useSelector((state) => state.commonInfo);
 
   useEffect(() => {
     fetchTestimonials();
@@ -86,12 +85,17 @@ const TestimonialsTable = () => {
     dispatch(setPopUpVisible(false));
     setSelectedId(null);
   };
+
+  const addData = () => {
+    setFormVisible(true);
+  };
   const columnDefs = [
     {
       headerName: "Name",
       field: "name",
       sortable: true,
       filter: true,
+      pinned: "left",
     },
     {
       headerName: "Image",
@@ -108,6 +112,7 @@ const TestimonialsTable = () => {
       headerName: "Content",
       field: "content",
       filter: true,
+      width: 440,
     },
     {
       headerName: "Rating",
@@ -119,8 +124,9 @@ const TestimonialsTable = () => {
     {
       headerName: "Actions",
       field: "actions",
+      pinned: "right",
       cellRenderer: (params) => (
-        <div className="flex gap-5 cursor-pointer items-center">
+        <div className="flex gap-5 mt-3 cursor-pointer items-center">
           <FaRegEdit
             onClick={() => handleEdit(params.data)}
             className="text-xl"
@@ -131,11 +137,16 @@ const TestimonialsTable = () => {
           />
         </div>
       ),
+      width: 130,
     },
   ];
   return (
     <>
-      {formVisible ? (
+      {loading && loading ? (
+        <div className="flex justify-center items-center h-[90vh]">
+          <Loader />
+        </div>
+      ) : formVisible ? (
         <>
           <div className="mx-10">
             <button
@@ -149,11 +160,16 @@ const TestimonialsTable = () => {
         </>
       ) : (
         <div className="mt-2 mx-10">
-          <h2 className="text-3xl font-serif font-bold">Testimonials List</h2>
-          <div
-            className="ag-theme-alpine mt-1"
-            style={{ height: 400, width: "100%" }}
-          >
+          <div className="flex justify-between items-center">
+            <h2 className="text-3xl font-serif font-bold">Testimonials List</h2>
+            <button
+              className="bg-[#2986FE] py-2 px-4 hover:bg-transparent hover:text-[#2986FE] border border-[#2986FE] transition-all duration-300 rounded-lg text-white"
+              onClick={addData}
+            >
+              ADD
+            </button>
+          </div>
+          <div className="ag-theme-alpine mt-2">
             <AgGridReact
               rowData={testimonials}
               columnDefs={columnDefs}

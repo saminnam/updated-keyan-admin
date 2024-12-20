@@ -1,16 +1,14 @@
 import { IoClose } from "react-icons/io5";
-import { setPopUpVisible } from "../Redux/Actions/CommonActions";
-import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
 
 const ErrorPopUp = () => {
-  const dispatch = useDispatch();
-  const { popUpVisible } = useSelector((state) => state.commonInfo);
+  const [popupVisible, setPopupVisible] = useState(false);
   const togglePopup = () => {
-    dispatch(setPopUpVisible(!popUpVisible));
+    setPopupVisible(!popupVisible);
   };
   return (
     <div>
-      {!popUpVisible && (
+      {!popupVisible && (
         <div className="flex justify-center items-center fixed inset-0 bg-black bg-opacity-50  z-10 w-full">
           <div className="border flex flex-col  top-10 gap-10 mx-auto bg-white shadow-[#dc3545] shadow-md p-5 w-[350px] rounded-lg">
             <div className="flex justify-center">

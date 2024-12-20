@@ -9,7 +9,7 @@ const DeletePopUp = ({ onConfirmDelete, onCancel }) => {
       <div className="flex justify-center items-center fixed inset-0 bg-black bg-opacity-50 z-10 w-full">
         <div className="border top-10 flex justify-center items-center flex-col p-8 rounded-lg bg-white">
           <div className="p-5 rounded-full shadow-inner shadow-red-500 mb-3">
-            <RiDeleteBin6Line className="text-8xl text-red-500 rounded-2xl" />
+            <RiDeleteBin6Line className="text-7xl text-red-500 rounded-2xl" />
           </div>
           <h2 className="text-xl font-bold mb-3">
             You are about to delete a data

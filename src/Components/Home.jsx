@@ -1,10 +1,5 @@
 import { useEffect, useState } from "react";
-// import Services from "./Services";
-// import Portfolios from "./Portfolios";
-// import Blogs from "./Blogs";
-// import Testimonials from "./Testimonials";
 import Contact from "./Contact";
-// import Team from "./Team";
 import SubHome from "./SubHome";
 import { IoIosNotificationsOutline } from "react-icons/io";
 import { CiLogout } from "react-icons/ci";
@@ -67,19 +62,14 @@ const Home = ({ active, setActive }) => {
         <Navbar active={active} setActive={setActive} />
         <div className="w-full mt-16 relative z-0">
           {active === "Home" && <SubHome />}
-          {/* {active === "Services" && <Services />} */}
           {active === "ServicesForm" && <ServicesForm />}
           {active === "ServicesTable" && <ServicesTable />}
-          {/* {active === "Blogs" && <Blogs />} */}
           {active === "BlogsTable" && <BlogsTable />}
           {active === "BlogsForm" && <BlogsForm />}
-          {/* {active === "Portfolios" && <Portfolios />} */}
           {active === "PortfolioForm" && <PortfoliosForm />}
           {active === "PortfolioTable" && <PortfolioTable />}
-          {/* {active === "Testimonials" && <Testimonials />} */}
           {active === "TestimonialsForm" && <TestimonialsForm />}
           {active === "TestimonialsTable" && <TestimonialsTable />}
-          {/* {active === "Team" && <Team />} */}
           {active === "TeamForm" && <TeamForm />}
           {active === "TeamTable" && <TeamTable />}
           {active === "Contact" && <Contact />}

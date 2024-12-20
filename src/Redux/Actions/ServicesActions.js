@@ -21,11 +21,6 @@ export const resetForm = () => ({
   type: RESET_FORM,
 });
 
-// export const openForm = (isOpen) => ({
-//   type: OPEN_FORM,
-//   payload: isOpen,
-// });
-
 export const setTitle = (title) => ({
   type: SET_SERVICE_TITLE,
   payload: title,

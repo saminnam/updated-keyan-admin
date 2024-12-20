@@ -14,15 +14,16 @@ import {
 } from "../Redux/Actions/ServicesActions";
 import axios from "axios";
 import {
-  setLoading,
   setError,
   setPopUpVisible,
   setSelectedId,
 } from "../Redux/Actions/CommonActions";
 import DeletePopUp from "../Modals/DeletePopUp";
 import ServicesForm from "../Forms/ServicesForm";
+import Loader from "../Components/Loader";
 
 const ServicesTable = () => {
+  const [loading, setLoading] = useState(false);
   const [formVisible, setFormVisible] = useState(false);
   const dispatch = useDispatch();
   const { services } = useSelector((state) => state.servicesInfo);
@@ -85,6 +86,10 @@ const ServicesTable = () => {
     setSelectedId(null);
   };
 
+  const addData = () => {
+    setFormVisible(true);
+  };
+
   const columnDefs = [
     {
       headerName: "ID",
@@ -136,13 +141,17 @@ const ServicesTable = () => {
           />
         </div>
       ),
-      width: 150,
+      width: 130,
     },
   ];
 
   return (
     <>
-      {formVisible ? (
+      {loading && loading ? (
+        <div className="flex justify-center items-center h-[90vh]">
+          <Loader />
+        </div>
+      ) : formVisible ? (
         <>
           <div className="mx-10">
             <button
@@ -155,20 +164,22 @@ const ServicesTable = () => {
           <ServicesForm />
         </>
       ) : (
-        <div>
-          {/* <ShortInfo /> */}
+        <>
           <div className="mx-10 mt-2">
-            <h2 className="text-3xl font-serif font-bold">Services List</h2>
-            <div
-              className="ag-theme-alpine mt-1"
-              style={{
-                height: 400,
-                width: "100%",
-              }}
-            >
+            <div className="flex justify-between items-center">
+              <h2 className="text-3xl font-serif font-bold">Services List</h2>
+              <button
+                className="bg-[#2986FE] py-2 px-4 hover:bg-transparent hover:text-[#2986FE] border border-[#2986FE] transition-all duration-300 rounded-lg text-white"
+                onClick={addData}
+              >
+                ADD
+              </button>
+            </div>
+            <div className="ag-theme-alpine mt-2">
               <AgGridReact
                 rowData={services}
                 columnDefs={columnDefs}
+                domLayout="autoHeight"
                 pagination={true}
                 paginationPageSize={10}
                 getRowHeight={() => 50}
@@ -177,7 +188,7 @@ const ServicesTable = () => {
             </div>
           </div>
           <DeletePopUp onConfirmDelete={handleDelete} onCancel={cancelDelete} />
-        </div>
+        </>
       )}
     </>
   );

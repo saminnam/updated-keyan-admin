@@ -14,7 +14,6 @@ import {
 } from "../Redux/Actions/PortfolioActions";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  setLoading,
   setError,
   setSelectedId,
   setPopUpVisible,
@@ -22,11 +21,12 @@ import {
 import axios from "axios";
 import DeletePopUp from "../Modals/DeletePopUp";
 import PortfoliosForm from "../Forms/PortfoliosForm";
+import Loader from "../Components/Loader";
 
 const PortfolioTable = () => {
+  const [loading, setLoading] = useState(false);
   const [formVisible, setFormVisible] = useState(false);
   const { portfolioItems } = useSelector((state) => state.portfoliosInfo);
-  // const { error, loading } = useSelector((state) => state.commonInfo);
   const { selectedId } = useSelector((state) => state.commonInfo);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -80,8 +80,19 @@ const PortfolioTable = () => {
     setSelectedId(null);
   };
 
+  const addData = () => {
+    setFormVisible(true);
+  };
+
   const columnDefs = [
-    { headerName: "Title", field: "title", sortable: true, filter: true },
+    {
+      headerName: "Title",
+      field: "title",
+      sortable: true,
+      filter: true,
+      width: 250,
+      pinned: "left",
+    },
     {
       headerName: "Image",
       field: "image",
@@ -89,9 +100,10 @@ const PortfolioTable = () => {
         <img
           src={`http://localhost:3000/Images/${params.value}`}
           alt={params.data.title}
-          className="w-16 h-16 object-cover rounded"
+          className="w-24 h-16 object-cover rounded"
         />
       ),
+      width: 280,
     },
 
     {
@@ -107,10 +119,12 @@ const PortfolioTable = () => {
           {params.value}
         </a>
       ),
+      width: 520,
     },
     {
       headerName: "Actions",
       field: "_id",
+      pinned: "right",
       cellRenderer: (params) => (
         <div className="flex mt-3 gap-5 cursor-pointer items-center">
           <FaRegEdit
@@ -123,12 +137,17 @@ const PortfolioTable = () => {
           />
         </div>
       ),
+      width: 130,
     },
   ];
 
   return (
     <>
-      {formVisible ? (
+      {loading && loading ? (
+        <div className="flex justify-center items-center h-[90vh]">
+          <Loader />
+        </div>
+      ) : formVisible ? (
         <>
           <div className="mx-10">
             <button
@@ -143,16 +162,22 @@ const PortfolioTable = () => {
       ) : (
         <div>
           <div className="mx-10 mt-2">
-            <h2 className="text-3xl font-serif font-bold">Portfolios List</h2>
-            <div
-              className="ag-theme-alpine mt-1"
-              style={{ height: "500px", width: "100%" }}
-            >
+            <div className="flex justify-between items-center">
+              <h2 className="text-3xl font-serif font-bold">Portfolios List</h2>
+              <button
+                className="bg-[#2986FE] py-2 px-4 hover:bg-transparent hover:text-[#2986FE] border border-[#2986FE] transition-all duration-300 rounded-lg text-white"
+                onClick={addData}
+              >
+                ADD
+              </button>
+            </div>
+            <div className="ag-theme-alpine mt-2">
               <AgGridReact
                 rowData={portfolioItems}
                 columnDefs={columnDefs}
                 pagination={true}
                 paginationPageSize={10}
+                domLayout="autoHeight"
                 getRowHeight={() => 50}
                 style={{ width: "100%" }}
               />
