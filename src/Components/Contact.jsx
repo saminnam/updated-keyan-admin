@@ -62,19 +62,6 @@ const Contact = () => {
       });
   };
 
-  // const handleDeleteAll = () => {
-  //   axios
-  //     .delete(`${API_BASE_URL}/contacts`)
-  //     .then((response) => {
-  //       console.log("Delete all response:", response.data);
-  //       dispatch(setContacts([]));
-  //       setSelectedMessage(null);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error deleting all contacts", error.response || error);
-  //     });
-  // };
-
   const columnDefs = [
     {
       headerName: "Name",

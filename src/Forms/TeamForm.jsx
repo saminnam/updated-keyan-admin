@@ -86,20 +86,37 @@ const TeamForm = () => {
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
+      const validImageTypes = [
+        "image/jpeg",
+        "image/png",
+        "image/gif",
+        "image/webp",
+      ];
+      if (!validImageTypes.includes(file.type)) {
+        setErrors((prev) => ({
+          ...prev,
+          image: "Please upload a valid image file (JPEG, PNG, GIF, or WEBP).",
+        }));
+        e.target.value = ""; 
+        return;
+      }
+
       if (file.size > 2 * 1024 * 1024) {
         setErrors((prev) => ({
           ...prev,
           image: "The image size exceeds the 2MB limit",
         }));
-      } else {
-        dispatch(setImage(file));
-        setErrors((prev) => ({ ...prev, image: "" }));
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          setImagePreview(reader.result);
-        };
-        reader.readAsDataURL(file);
+        return;
       }
+
+      dispatch(setImage(file));
+      setErrors((prev) => ({ ...prev, image: "" }));
+
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+      };
+      reader.readAsDataURL(file);
     }
   };
 
@@ -190,18 +207,19 @@ const TeamForm = () => {
                     type="file"
                     name="image"
                     onChange={handleFileChange}
+                    accept="image/jpeg, image/png, image/gif, image/webp"
                     className="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-600 hover:file:bg-indigo-100"
                     required={!editingItem}
                   />
                   {imagePreview && (
-                <div className="mb-2">
-                  <img
-                    src={imagePreview}
-                    alt="Preview"
-                    className="w-24 h-24 object-cover rounded-full"
-                  />
-                </div>
-              )}
+                    <div className="mb-2">
+                      <img
+                        src={imagePreview}
+                        alt="Preview"
+                        className="w-24 h-24 object-cover rounded-full"
+                      />
+                    </div>
+                  )}
                   <RxCross2
                     className="cursor-pointer text-2xl"
                     onClick={handleRemoveImage}
@@ -211,7 +229,7 @@ const TeamForm = () => {
               {errors.image && (
                 <p className="text-red-500 text-sm">{errors.image}</p>
               )}
-              
+
               <button
                 type="submit"
                 onClick={handleFormSubmit}
