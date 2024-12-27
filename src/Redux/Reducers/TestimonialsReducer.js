@@ -3,7 +3,6 @@ import {
   SET_PERSON_RATING,
   SET_EDITING_ITEM,
   SET_CONTENT,
-  // OPEN_FORM,
   SET_IMAGE,
   RESET_FORM,
   SET_SUCCESS,
@@ -18,7 +17,6 @@ const initialState = {
   name: "",
   content: "",
   rating: 0,
-  // openForm: false,
 };
 
 const testimonialsReducer = (state = initialState, action) => {
@@ -40,13 +38,8 @@ const testimonialsReducer = (state = initialState, action) => {
       };
     case SET_PERSON_NAME:
       return { ...state, name: action.payload };
-
     case SET_IMAGE:
       return { ...state, image: action.payload };
-
-    // case OPEN_FORM:
-    //   return { ...state, openForm: action.payload };
-
     case SET_EDITING_ITEM:
       return { ...state, editingItem: action.payload };
     case RESET_FORM:

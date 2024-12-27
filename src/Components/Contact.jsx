@@ -98,16 +98,10 @@ const Contact = () => {
     <section className="mt-2 mx-10">
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold md:text-3xl font-serif">Messages</h2>
-        {/* <button
-            onClick={handleDeleteAll}
-            className="bg-transparent text-xs font-medium uppercase tracking-tight rounded-lg border hover:bg-blue-500 hover:text-white transition-transform duration-300 border-blue-500 text-blue-500 px-3 lg:px-8 py-3"
-          >
-            Delete All
-          </button> */}
       </div>
       {error && <div className="text-red-500 mb-4">{error}</div>}
       {loading && loading ? (
-        <div className="flex justify-center items-center h-[20vh]">
+        <div className="flex justify-center items-center h-[90vh]">
           <Loader />
         </div>
       ) : (

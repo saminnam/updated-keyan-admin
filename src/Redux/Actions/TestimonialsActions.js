@@ -3,7 +3,6 @@ import {
   SET_PERSON_RATING,
   SET_EDITING_ITEM,
   SET_CONTENT,
-  // OPEN_FORM,
   SET_IMAGE,
   RESET_FORM,
   SET_PERSON_NAME,
@@ -32,11 +31,6 @@ export const setEditingItem = (item) => ({
 export const resetForm = () => ({
   type: RESET_FORM,
 });
-
-// export const openForm = (isOpen) => ({
-//   type: OPEN_FORM,
-//   payload: isOpen,
-// });
 
 export const setPersonName = (name) => ({
   type: SET_PERSON_NAME,

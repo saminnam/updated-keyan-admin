@@ -2,7 +2,6 @@ import {
   ADD_BLOG,
   SET_EDITING_ITEM,
   RESET_FORM,
-  // OPEN_FORM,
   SET_TITLE,
   SET_CATEGORY,
   SET_CONTENT,
@@ -24,11 +23,6 @@ export const setEditingItem = (item) => ({
 export const resetForm = () => ({
   type: RESET_FORM,
 });
-
-// export const openForm = (isOpen) => ({
-//   type: OPEN_FORM,
-//   payload: isOpen,
-// });
 
 export const setTitle = (title) => ({
   type: SET_TITLE,

@@ -2,7 +2,6 @@ import {
   ADD_PERSON,
   ADD_PERSON_ROLE,
   SET_EDITING_ITEM,
-  // OPEN_FORM,
   SET_IMAGE,
   RESET_FORM,
   SET_SUCCESS,
@@ -16,7 +15,6 @@ const initialState = {
   editingItem: null,
   name: "",
   role: "",
-  // openForm: false,
 };
 
 const teamsReducer = (state = initialState, action) => {
@@ -36,9 +34,6 @@ const teamsReducer = (state = initialState, action) => {
 
     case SET_IMAGE:
       return { ...state, image: action.payload };
-
-    // case OPEN_FORM:
-    //   return { ...state, openForm: action.payload };
 
     case SET_EDITING_ITEM:
       return { ...state, editingItem: action.payload };

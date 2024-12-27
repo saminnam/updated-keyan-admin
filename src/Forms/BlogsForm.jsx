@@ -190,7 +190,7 @@ const BlogsForm = () => {
   };
 
   return (
-    <div className="">
+    <div>
       {loading && loading ? (
         <div className="flex justify-center items-center h-[90vh]">
           <Loader />
@@ -212,7 +212,7 @@ const BlogsForm = () => {
                     name="title"
                     value={title}
                     placeholder="Title"
-                    onChange={(e) => handleTitleChange(e.target.value)}
+                    onChange={(e) => handleTitleChange(e.target.value)} 
                     className="p-2 border focus:outline-[#2986FE] w-full rounded"
                   />
                   {errors.title && (

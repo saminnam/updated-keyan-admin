@@ -25,7 +25,6 @@ export const SET_ERROR = "SET_ERROR";
 export const SET_ERRORS = "SET_ERRORS";
 export const OPEN_FORM = "OPEN_FORM";
 export const SET_EDITING_ITEM = "SET_EDITING_ITEM";
-export const SHOW_IMAGE_PREVIEW = "SHOW_IMAGE_PREVIEW";
 export const POPUP_VISIBLE = "POPUP_VISIBLE";
 export const SET_SELECTED_ID = "SET_SELECTED_ID";
 

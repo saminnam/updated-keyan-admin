@@ -1,6 +1,5 @@
 import {
   SET_ERROR,
-  SHOW_IMAGE_PREVIEW,
   POPUP_VISIBLE,
   SET_SELECTED_ID,
 } from "../Actions/ActionTypes";
@@ -8,11 +7,6 @@ import {
 export const setError = (message) => ({
   type: SET_ERROR,
   payload: message,
-});
-
-export const setShowImagePreview = (status) => ({
-  type: SHOW_IMAGE_PREVIEW,
-  payload: status,
 });
 
 export const setPopUpVisible = (status) => ({

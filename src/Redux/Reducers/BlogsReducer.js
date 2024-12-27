@@ -2,7 +2,6 @@ import {
   ADD_BLOG,
   SET_EDITING_ITEM,
   RESET_FORM,
-  // OPEN_FORM,
   SET_TITLE,
   SET_CATEGORY,
   SET_CONTENT,
@@ -13,7 +12,6 @@ import {
 
 const initialState = {
   blogs: [],
-  // openForm: false,
   editingItem: null,
   title: "",
   category: "",
@@ -45,11 +43,6 @@ const blogsReducer = (state = initialState, action) => {
         author: "",
         image: null,
       };
-    // case OPEN_FORM:
-    //   return {
-    //     ...state,
-    //     openForm: action.payload,
-    //   };
     case SET_TITLE:
       return {
         ...state,
