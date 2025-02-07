@@ -3,7 +3,6 @@ import {
   SET_SERVICE_TITLE,
   SET_DESCRIPTION,
   RESET_FORM,
-  // OPEN_FORM,
   SET_EDITING_ITEM,
 } from "../Actions/ActionTypes";
 
